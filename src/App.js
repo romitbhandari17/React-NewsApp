@@ -3,7 +3,6 @@ import React, { Component } from 'react'
 import Navbar from './components/Navbar';
 import News from './components/News';
 import About from './components/About';
-//import Search from './components/SearchClass';
 import LoadingBar from 'react-top-loading-bar'
 
 import {
