@@ -6,7 +6,7 @@ import { useLocation } from 'react-router-dom';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 const News = (props) => {
-
+    const { category, ...otherProps } = props;
     const [articles, setArticles ] = useState([]) ;
     const [totalResults, setTotalResults ] = useState(0) ;
     const [loading, setLoading ] = useState(true) ;
@@ -78,7 +78,7 @@ const News = (props) => {
     let query = params.get('query');
     console.log("query="+query);
 
-    //props.setProgress(10);
+    props.setProgress(10);
 
     if(query===null){
       query="";
@@ -88,21 +88,22 @@ const News = (props) => {
     console.log("url=",url);
     setLoading(true);
     let response = await fetch(url);
-    //props.setProgress(30);
+    props.setProgress(30);
     let parsedJson = await response.json();
-    //props.setProgress(70);
+    props.setProgress(70);
     setArticles(parsedJson.articles);
     setLoading(false);
     setTotalResults(parsedJson.totalResults);
-    //props.setProgress(100);
+    props.setProgress(100);
   };
 
   // replicating componentDidUpdate
   useEffect(() => {
+    console.log("Inside useEffect");
     document.title = 'NewsBites-'+capitalizeFirstLetter(props.category);
     updateNews();
     // eslint-disable-next-line
-  }, []);
+  }, [category, ...Object.values(otherProps).filter((prop) => prop !== props.setProgress)]); // exclude trigger on props.setProgress change
 
   // old function
   // useEffect(() => {
